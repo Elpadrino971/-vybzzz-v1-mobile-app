@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover - Vybzzz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            color: #1a1a1a;
+            padding-bottom: 80px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+        
+        .main-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        
+        .search-bar {
+            margin: 20px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 45px 15px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            background: #f8f9fa;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin: 0 20px 30px;
+            overflow-x: auto;
+        }
+        
+        .filter-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .filter-btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .section {
+            margin: 0 20px 30px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        .see-all {
+            color: #f57c00;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .live-event {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .live-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(45deg, #333, #666);
+            position: relative;
+        }
+        
+        .live-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: white;
+            color: black;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .live-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f44336;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .live-info {
+            padding: 20px;
+        }
+        
+        .live-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .live-artist {
+            color: #f57c00;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .live-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .live-location, .live-date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .live-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        
+        .get-tickets-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .trending-thumbnails {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+        
+        .thumbnail {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            flex-shrink: 0;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+        }
+        
+        .nav-item.active {
+            color: #f57c00;
+        }
+        
+        .nav-item.create {
+            background: #f44336;
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            margin-top: -8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="main-title">Discover</h1>
+    </div>
+    
+    <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Search artists, venues, events...">
+        <div class="search-icon">🔍</div>
+    </div>
+    
+    <div class="filters">
+        <button class="filter-btn">📍 Near Me</button>
+        <button class="filter-btn">📅 This Week</button>
+        <button class="filter-btn">🔧 Filters</button>
+    </div>
+    
+    <div class="section">
+        <div class="section-header">
+            <div class="section-title">
+                <span style="color: #f44336;">🔴</span>
+                <span>Live Now</span>
+            </div>
+            <div class="see-all">See All</div>
+        </div>
+        
+        <div class="live-event">
+            <div class="live-image">
+                <div class="live-tag">FESTIVAL</div>
+                <div class="live-indicator">
+                    <span>((o))</span>
+                    <span>LIVE</span>
+                </div>
+            </div>
+            <div class="live-info">
+                <div class="live-title">EDC Las Vegas...</div>
+                <div class="live-artist">Various DJs</div>
+                <div class="live-details">
+                    <div class="live-location">📍 Las Vegas Motor...</div>
+                    <div class="live-date">📅 May 16</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                    <div class="live-price">$399</div>
+                    <button class="get-tickets-btn">Get Tickets</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-header">
+            <div class="section-title">Trending Concert Moments</div>
+            <div class="see-all">See All</div>
+        </div>
+        
+        <div class="trending-thumbnails">
+            <div class="thumbnail"></div>
+            <div class="thumbnail"></div>
+            <div class="thumbnail"></div>
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item">🏠 Home</div>
+        <div class="nav-item active">🔍 Discover</div>
+        <div class="nav-item create">+</div>
+        <div class="nav-item">🎫 Tickets</div>
+        <div class="nav-item">👤 Profile</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Vybzzz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            color: #1a1a1a;
+        }
+        
+        .event-card {
+            margin: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .event-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #333, #666);
+            position: relative;
+        }
+        
+        .event-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: black;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .event-info {
+            padding: 20px;
+        }
+        
+        .event-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .event-artist {
+            color: #f57c00;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .event-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .event-location, .event-date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .event-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        
+        .get-tickets-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+        }
+        
+        .nav-item.active {
+            color: #f57c00;
+        }
+        
+        .nav-item.create {
+            background: #f44336;
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            margin-top: -8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="event-card">
+        <div class="event-image">
+            <div class="event-tag">CONCERT</div>
+        </div>
+        <div class="event-info">
+            <div class="event-title">Utopia - Circus Maximus Tour</div>
+            <div class="event-artist">Travis Scott</div>
+            <div class="event-details">
+                <div class="event-location">📍 Madison Square Garden, New York</div>
+                <div class="event-date">📅 Mar 14</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="event-price">$175</div>
+                <button class="get-tickets-btn">Get Tickets</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="event-card">
+        <div class="event-image">
+            <div class="event-tag">FESTIVAL</div>
+        </div>
+        <div class="event-info">
+            <div class="event-title">EDC Las Vegas 2024</div>
+            <div class="event-artist">Various DJs</div>
+            <div class="event-details">
+                <div class="event-location">📍 Las Vegas Motor Speedway, Las Vegas</div>
+                <div class="event-date">📅 May 16</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="event-price">$399</div>
+                <button class="get-tickets-btn">Get Tickets</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item active">🏠 Home</div>
+        <div class="nav-item">🔍 Discover</div>
+        <div class="nav-item create">+</div>
+        <div class="nav-item">🎫 Tickets</div>
+        <div class="nav-item">👤 Profile</div>
+    </div>
+</body>
+</html>

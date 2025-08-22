@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VyBzzZ - Dashboard Business</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            /* Thème clair par défaut */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --accent-primary: #d4af37;
+            --accent-secondary: #b8860b;
+            --card-bg: #ffffff;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --border-color: #e9ecef;
+        }
+        
+        [data-theme="dark"] {
+            /* Thème sombre */
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --accent-primary: #e50914;
+            --accent-secondary: #b2070f;
+            --card-bg: #1a1a1a;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            --border-color: #333333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .header {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .header h1 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .metric-change {
+            font-size: 0.9rem;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .metric-change.positive {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .metric-change.negative {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .charts-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        .chart-title {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+        
+        .concert-photos {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .concert-photo {
+            width: 100%;
+            height: 120px;
+            border-radius: 10px;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .concert-photo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+        }
+        
+        .photo-label {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+        
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .action-btn {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .action-btn:active {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <button class="theme-toggle" onclick="toggleTheme()">
+        🌙 Mode Sombre
+    </button>
+    
+    <div class="header">
+        <h1>🎵 VyBzzZ Dashboard Business</h1>
+        <p>Gestion des concerts et suivi des performances</p>
+    </div>
+    
+    <div class="dashboard-grid">
+        <div class="metric-card">
+            <div class="metric-icon">🎵</div>
+            <div class="metric-value" id="concerts-count">0</div>
+            <div class="metric-label">Concerts Vendus</div>
+            <div class="metric-change positive" id="concerts-change">+0%</div>
+        </div>
+        
+        <div class="metric-card">
+            <div class="metric-icon">💰</div>
+            <div class="metric-value" id="tips-total">€0</div>
+            <div class="metric-label">Total Pourboires</div>
+            <div class="metric-change positive" id="tips-change">+0%</div>
+        </div>
+        
+        <div class="metric-card">
+            <div class="metric-icon">🎫</div>
+            <div class="metric-value" id="tickets-sold">0</div>
+            <div class="metric-label">Tickets Vendus</div>
+            <div class="metric-change positive" id="tickets-change">+0%</div>
+        </div>
+        
+        <div class="metric-card">
+            <div class="metric-icon">👥</div>
+            <div class="metric-value" id="active-users">0</div>
+            <div class="metric-label">Utilisateurs Actifs</div>
+            <div class="metric-change positive" id="users-change">+0%</div>
+        </div>
+    </div>
+    
+    <div class="charts-section">
+        <div class="chart-container">
+            <div class="chart-title">
+                📊 Évolution des Ventes (7 derniers jours)
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="concert-photos">
+            <div class="chart-title">
+                🎭 Concerts Populaires
+            </div>
+            <div class="photo-grid">
+                <div class="concert-photo">
+                    <div class="photo-label">Rock Night</div>
+                    🎸
+                </div>
+                <div class="concert-photo">
+                    <div class="photo-label">Jazz Evening</div>
+                    🎷
+                </div>
+                <div class="concert-photo">
+                    <div class="photo-label">Pop Concert</div>
+                    🎤
+                </div>
+                <div class="concert-photo">
+                    <div class="photo-label">Classical</div>
+                    🎻
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="actions">
+        <button class="action-btn" onclick="exportData()">
+            📊 Exporter les Données
+        </button>
+        <button class="action-btn" onclick="refreshData()">
+            🔄 Actualiser
+        </button>
+        <button class="action-btn" onclick="showDetails()">
+            📋 Voir les Détails
+        </button>
+        <button class="action-btn" onclick="contactSupport()">
+            💬 Support
+        </button>
+    </div>
+
+    <script>
+        // Gestion des thèmes
+        let currentTheme = 'light';
+        let salesChart;
+        
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', currentTheme);
+            
+            const toggleBtn = document.querySelector('.theme-toggle');
+            if (currentTheme === 'dark') {
+                toggleBtn.textContent = '☀️ Mode Clair';
+                toggleBtn.style.background = '#e50914';
+            } else {
+                toggleBtn.textContent = '🌙 Mode Sombre';
+                toggleBtn.style.background = '#d4af37';
+            }
+            
+            // Mettre à jour le graphique
+            updateChartTheme();
+            
+            // Sauvegarder la préférence
+            localStorage.setItem('theme', currentTheme);
+        }
+        
+        // Charger le thème sauvegardé
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                currentTheme = savedTheme;
+                document.body.setAttribute('data-theme', currentTheme);
+                
+                const toggleBtn = document.querySelector('.theme-toggle');
+                if (currentTheme === 'dark') {
+                    toggleBtn.textContent = '☀️ Mode Clair';
+                    toggleBtn.style.background = '#e50914';
+                }
+            }
+        }
+        
+        // Créer le graphique des ventes
+        function createSalesChart() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            
+            const chartColors = currentTheme === 'dark' 
+                ? ['#e50914', '#b2070f', '#ff6b6b', '#ff8e8e', '#ffb3b3', '#ffd8d8', '#ffffff']
+                : ['#d4af37', '#b8860b', '#daa520', '#cd853f', '#deb887', '#f4e4bc', '#fafad2'];
+            
+            salesChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+                    datasets: [{
+                        label: 'Concerts Vendus',
+                        data: [12, 19, 15, 25, 22, 30, 28],
+                        borderColor: chartColors[0],
+                        backgroundColor: chartColors[0] + '20',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Tickets Vendus',
+                        data: [45, 67, 52, 89, 76, 120, 98],
+                        borderColor: chartColors[1],
+                        backgroundColor: chartColors[1] + '20',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: currentTheme === 'dark' ? '#ffffff' : '#1a1a1a'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: currentTheme === 'dark' ? '#ffffff' : '#1a1a1a'
+                            },
+                            grid: {
+                                color: currentTheme === 'dark' ? '#333333' : '#e9ecef'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: currentTheme === 'dark' ? '#ffffff' : '#1a1a1a'
+                            },
+                            grid: {
+                                color: currentTheme === 'dark' ? '#333333' : '#e9ecef'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Mettre à jour le thème du graphique
+        function updateChartTheme() {
+            if (salesChart) {
+                const chartColors = currentTheme === 'dark' 
+                    ? ['#e50914', '#b2070f', '#ff6b6b', '#ff8e8e', '#ffb3b3', '#ffd8d8', '#ffffff']
+                    : ['#d4af37', '#b8860b', '#daa520', '#cd853f', '#deb887', '#f4e4bc', '#fafad2'];
+                
+                salesChart.data.datasets[0].borderColor = chartColors[0];
+                salesChart.data.datasets[0].backgroundColor = chartColors[0] + '20';
+                salesChart.data.datasets[1].borderColor = chartColors[1];
+                salesChart.data.datasets[1].backgroundColor = chartColors[1] + '20';
+                
+                salesChart.options.plugins.legend.labels.color = currentTheme === 'dark' ? '#ffffff' : '#1a1a1a';
+                salesChart.options.scales.x.ticks.color = currentTheme === 'dark' ? '#ffffff' : '#1a1a1a';
+                salesChart.options.scales.y.ticks.color = currentTheme === 'dark' ? '#ffffff' : '#1a1a1a';
+                salesChart.options.scales.x.grid.color = currentTheme === 'dark' ? '#333333' : '#e9ecef';
+                salesChart.options.scales.y.grid.color = currentTheme === 'dark' ? '#333333' : '#e9ecef';
+                
+                salesChart.update();
+            }
+        }
+        
+        // Données simulées pour la démo
+        let mockData = {
+            concerts: 42,
+            tips: 1250,
+            tickets: 156,
+            users: 89
+        };
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedTheme();
+            createSalesChart();
+            updateMetrics();
+            startLiveUpdates();
+        });
+        
+        function updateMetrics() {
+            document.getElementById('concerts-count').textContent = mockData.concerts;
+            document.getElementById('tips-total').textContent = '€' + mockData.tips;
+            document.getElementById('tickets-sold').textContent = mockData.tickets;
+            document.getElementById('active-users').textContent = mockData.users;
+        }
+        
+        function startLiveUpdates() {
+            // Simulation de mises à jour en temps réel
+            setInterval(() => {
+                // Simuler de nouvelles ventes
+                if (Math.random() > 0.7) {
+                    mockData.concerts += Math.floor(Math.random() * 3);
+                    mockData.tickets += Math.floor(Math.random() * 10);
+                    mockData.tips += Math.floor(Math.random() * 100);
+                    updateMetrics();
+                }
+            }, 10000); // Toutes les 10 secondes
+        }
+        
+        function exportData() {
+            alert('📊 Export des données en cours...\n\nConcerts: ' + mockData.concerts + '\nPourboires: €' + mockData.tips + '\nTickets: ' + mockData.tickets + '\nUtilisateurs: ' + mockData.users);
+        }
+        
+        function refreshData() {
+            // Simuler un refresh
+            document.body.style.opacity = '0.8';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+                alert('🔄 Données actualisées !');
+            }, 500);
+        }
+        
+        function showDetails() {
+            alert('📋 Détails des métriques :\n\n• Concerts populaires\n• Top des pourboires\n• Utilisateurs actifs\n• Zones géographiques');
+        }
+        
+        function contactSupport() {
+            alert('💬 Support VyBzzZ :\n\nEmail: support@vybzzz.com\nTéléphone: +33 1 23 45 67 89\nHoraires: 9h-18h (Lun-Ven)');
+        }
+        
+        // Animation d'entrée
+        setTimeout(() => {
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '1';
+        }, 100);
+    </script>
+</body>
+</html>

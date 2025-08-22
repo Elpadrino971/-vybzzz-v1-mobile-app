@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VyBzzZ - Test Fonctionnel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .success {
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .counter {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        
+        .feature {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 VyBzzZ - Test Fonctionnel</h1>
+        
+        <div class="feature">
+            <h3>✅ Test des Boutons</h3>
+            <p>Cliquez sur les boutons pour vérifier qu'ils fonctionnent !</p>
+        </div>
+        
+        <div class="counter" id="counter">0</div>
+        
+        <button class="button" onclick="incrementCounter()">
+            🔢 Incrémenter
+        </button>
+        
+        <button class="button" onclick="changeColor()">
+            🎨 Changer Couleur
+        </button>
+        
+        <button class="button" onclick="showMessage()">
+            💬 Afficher Message
+        </button>
+        
+        <button class="button" onclick="resetCounter()">
+            🔄 Réinitialiser
+        </button>
+        
+        <div class="success" id="success">
+            🎉 Bouton cliqué avec succès !
+        </div>
+        
+        <div class="feature">
+            <h3>📱 Responsive</h3>
+            <p>Cette page s'adapte à tous les écrans (mobile, tablette, desktop)</p>
+        </div>
+        
+        <div class="feature">
+            <h3>⚡ Fonctionnel</h3>
+            <p>Tous les boutons marchent vraiment ! Testez-les !</p>
+        </div>
+        
+        <div class="feature">
+            <h3>🎯 Déployé</h3>
+            <p>Si vous voyez cette page, le déploiement fonctionne !</p>
+        </div>
+    </div>
+
+    <script>
+        let counter = 0;
+        let colorIndex = 0;
+        const colors = [
+            'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+            'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+            'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
+        ];
+        
+        function incrementCounter() {
+            counter++;
+            document.getElementById('counter').textContent = counter;
+            showSuccess();
+        }
+        
+        function changeColor() {
+            colorIndex = (colorIndex + 1) % colors.length;
+            document.body.style.background = colors[colorIndex];
+            showSuccess();
+        }
+        
+        function showMessage() {
+            alert('🎉 Ce bouton fonctionne parfaitement !');
+            showSuccess();
+        }
+        
+        function resetCounter() {
+            counter = 0;
+            document.getElementById('counter').textContent = counter;
+            showSuccess();
+        }
+        
+        function showSuccess() {
+            const success = document.getElementById('success');
+            success.style.display = 'block';
+            setTimeout(() => {
+                success.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Animation d'entrée
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                container.style.transition = 'all 0.5s ease';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

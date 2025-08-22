@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create - Vybzzz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            color: #1a1a1a;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        .main-content {
+            padding: 30px 20px;
+        }
+        
+        .main-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .option-card {
+            background: #fff8e1;
+            border: 1px solid #ffd54f;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            position: relative;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .option-card.recommended::before {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            background: #f44336;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 10px;
+        }
+        
+        .option-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #f57c00;
+        }
+        
+        .option-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        
+        .option-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .pro-tips {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .pro-tips-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+        
+        .pro-tips-list {
+            list-style: none;
+        }
+        
+        .pro-tips-list li {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .pro-tips-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #f57c00;
+            font-weight: bold;
+        }
+        
+        .continue-btn {
+            width: 100%;
+            background: #e0e0e0;
+            color: #666;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .continue-btn:hover {
+            background: #d0d0d0;
+        }
+        
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 24px;
+            }
+            
+            .options-grid {
+                gap: 12px;
+            }
+            
+            .option-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="close-btn">✕</button>
+        <div class="title">Create</div>
+        <div></div>
+    </div>
+    
+    <div class="main-content">
+        <h1 class="main-title">Share Your Vybzzz</h1>
+        <p class="subtitle">Capture and share your live music moments.</p>
+        
+        <div class="options-grid">
+            <div class="option-card" onclick="selectOption('record')">
+                <div class="option-icon">📹</div>
+                <div class="option-title">Record Video</div>
+                <div class="option-desc">Capture concert moments.</div>
+            </div>
+            
+            <div class="option-card recommended" onclick="selectOption('live')">
+                <div class="option-icon">🔴</div>
+                <div class="option-title">Go Live</div>
+                <div class="option-desc">Stream your experience.</div>
+            </div>
+            
+            <div class="option-card" onclick="selectOption('upload')">
+                <div class="option-icon">⬆️</div>
+                <div class="option-title">Upload</div>
+                <div class="option-desc">Share existing videos.</div>
+            </div>
+            
+            <div class="option-card" onclick="selectOption('photo')">
+                <div class="option-icon">📸</div>
+                <div class="option-title">Take Photo</div>
+                <div class="option-desc">Snap concert pics.</div>
+            </div>
+        </div>
+        
+        <div class="pro-tips">
+            <div class="pro-tips-title">
+                <span>✨</span>
+                <span>Pro Tips</span>
+            </div>
+            <ul class="pro-tips-list">
+                <li>Use good lighting for better quality</li>
+                <li>Keep videos under 60 seconds</li>
+                <li>Add music and effects after recording</li>
+                <li>Tag the event and artist for more views</li>
+            </ul>
+        </div>
+        
+        <button class="continue-btn" onclick="continueAction()">
+            Continue
+        </button>
+    </div>
+
+    <script>
+        function selectOption(option) {
+            console.log('Option sélectionnée:', option);
+            // Ici vous pouvez ajouter la logique pour chaque option
+        }
+        
+        function continueAction() {
+            console.log('Continuer...');
+            // Ici vous pouvez ajouter la logique pour continuer
+        }
+        
+        // Fermer l'écran
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            console.log('Fermer l\'écran');
+            // Ici vous pouvez ajouter la logique pour fermer
+        });
+    </script>
+</body>
+</html>
