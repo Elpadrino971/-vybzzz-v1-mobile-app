@@ -41,6 +41,7 @@ dependencies:
 
   ### 📸 Media (Image, Audio) - SIMPLIFIÉ
   cached_network_image: ^3.4.1
+  flutter_svg: ^2.0.10+1
   audio_waveforms: ^1.3.0
   just_audio: ^0.10.4
   image_picker: ^1.1.2
@@ -93,6 +94,15 @@ flutter:
   
   assets:
     - assets/images/
+    - assets/images/concepts/
+    - assets/images/concepts/ui_ux/
+    - assets/images/concepts/branding/
+    - assets/images/concepts/marketing/
+    - assets/images/concepts/innovation/
+    - assets/images/concepts/development/
+    - assets/images/backgrounds/
+    - assets/images/events/
+    - assets/images/artists/
     - assets/icons/
     - assets/csv/
     - assets/audios/

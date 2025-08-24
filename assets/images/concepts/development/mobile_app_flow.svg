@@ -1,0 +1,71 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#11998e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#38ef7d;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f8f9fa;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bg)" rx="20"/>
+  
+  <!-- Phone Frame 1 - Login -->
+  <rect x="30" y="50" width="80" height="140" fill="#333" rx="10"/>
+  <rect x="35" y="55" width="70" height="130" fill="url(#screen)" rx="8"/>
+  <rect x="45" y="70" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="45" y="85" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="45" y="100" width="50" height="20" fill="#11998e" rx="5"/>
+  <rect x="45" y="130" width="50" height="20" fill="#38ef7d" rx="5"/>
+  <rect x="45" y="155" width="50" height="6" fill="#666" rx="3"/>
+  
+  <!-- Phone Frame 2 - Home -->
+  <rect x="130" y="50" width="80" height="140" fill="#333" rx="10"/>
+  <rect x="135" y="55" width="70" height="130" fill="url(#screen)" rx="8"/>
+  <rect x="145" y="70" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="145" y="85" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="145" y="100" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="145" y="115" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="145" y="130" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="145" y="145" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="145" y="160" width="50" height="8" fill="#333" rx="4"/>
+  
+  <!-- Phone Frame 3 - Profile -->
+  <rect x="230" y="50" width="80" height="140" fill="#333" rx="10"/>
+  <rect x="235" y="55" width="70" height="130" fill="url(#screen)" rx="8"/>
+  <circle cx="270" cy="80" r="15" fill="#11998e"/>
+  <rect x="245" y="105" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="245" y="120" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="245" y="135" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="245" y="150" width="50" height="8" fill="#333" rx="4"/>
+  <rect x="245" y="165" width="50" height="8" fill="#333" rx="4"/>
+  
+  <!-- Flow Arrows -->
+  <path d="M 115 120 L 125 120" stroke="#fff" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <path d="M 215 120 L 225 120" stroke="#fff" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrow Marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+            refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fff"/>
+    </marker>
+  </defs>
+  
+  <!-- Flow Labels -->
+  <text x="120" y="110" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Login</text>
+  <text x="170" y="110" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Home</text>
+  <text x="270" y="110" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Profile</text>
+  
+  <!-- Bottom Section -->
+  <rect x="50" y="220" width="300" height="60" fill="rgba(255,255,255,0.1)" rx="15"/>
+  <text x="200" y="240" font-family="Arial, sans-serif" font-size="14" fill="#fff" text-anchor="middle">User Journey Flow</text>
+  <text x="200" y="260" font-family="Arial, sans-serif" font-size="12" fill="#fff" text-anchor="middle">Login → Home → Profile Navigation</text>
+  
+  <!-- Decorative Elements -->
+  <circle cx="80" cy="180" r="4" fill="#fff" opacity="0.6"/>
+  <circle cx="320" cy="180" r="4" fill="#fff" opacity="0.6"/>
+</svg>

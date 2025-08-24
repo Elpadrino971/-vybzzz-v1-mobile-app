@@ -1,0 +1,50 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9a9e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fecfef;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="logo" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a8edea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fed6e3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bg)" rx="20"/>
+  
+  <!-- Main Logo -->
+  <circle cx="200" cy="120" r="50" fill="url(#logo)" stroke="#fff" stroke-width="3"/>
+  <text x="200" y="130" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">VZ</text>
+  
+  <!-- Brand Elements -->
+  <rect x="50" y="200" width="80" height="60" fill="#fff" rx="10"/>
+  <rect x="60" y="210" width="60" height="8" fill="#333" rx="4"/>
+  <rect x="60" y="225" width="40" height="6" fill="#666" rx="3"/>
+  <rect x="60" y="235" width="50" height="15" fill="#a8edea" rx="5"/>
+  
+  <rect x="160" y="200" width="80" height="60" fill="#fff" rx="10"/>
+  <rect x="170" y="210" width="60" height="8" fill="#333" rx="4"/>
+  <rect x="170" y="225" width="40" height="6" fill="#666" rx="3"/>
+  <circle cx="200" cy="240" r="12" fill="#fed6e3"/>
+  
+  <rect x="270" y="200" width="80" height="60" fill="#fff" rx="10"/>
+  <rect x="280" y="210" width="60" height="8" fill="#333" rx="4"/>
+  <rect x="280" y="225" width="40" height="6" fill="#666" rx="3"/>
+  <rect x="280" y="235" width="50" height="15" fill="#ff9a9e" rx="5"/>
+  
+  <!-- Color Palette -->
+  <rect x="50" y="280" width="300" height="20" fill="none" stroke="#fff" stroke-width="2" rx="10"/>
+  <rect x="60" y="285" width="40" height="10" fill="#ff9a9e" rx="5"/>
+  <rect x="110" y="285" width="40" height="10" fill="#fecfef" rx="5"/>
+  <rect x="160" y="285" width="40" height="10" fill="#a8edea" rx="5"/>
+  <rect x="210" y="285" width="40" height="10" fill="#fed6e3" rx="5"/>
+  <rect x="260" y="285" width="40" height="10" fill="#333" rx="5"/>
+  <rect x="310" y="285" width="40" height="10" fill="#666" rx="5"/>
+  
+  <!-- Decorative Elements -->
+  <circle cx="80" cy="80" r="8" fill="#fff" opacity="0.8"/>
+  <circle cx="320" cy="80" r="8" fill="#fff" opacity="0.8"/>
+  <circle cx="80" cy="220" r="6" fill="#fff" opacity="0.6"/>
+  <circle cx="320" cy="220" r="6" fill="#fff" opacity="0.6"/>
+</svg>

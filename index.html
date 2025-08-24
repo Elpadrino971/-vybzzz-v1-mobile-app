@@ -656,158 +656,6 @@
             font-weight: 600;
         }
         
-        /* Styles pour TICKETS */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 20px 0;
-            border-bottom: 1px solid var(--border-light);
-            padding: 0 20px 20px;
-        }
-        
-        .tab {
-            font-size: 18px;
-            color: #666;
-            cursor: pointer;
-            padding: 10px;
-            transition: color 0.3s ease;
-        }
-        
-        .tab.active {
-            color: var(--text-light);
-            border-bottom: 2px solid var(--primary-color);
-        }
-        
-        .ticket-card {
-            background: var(--background-light);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            margin: 20px;
-            border: 1px solid var(--border-light);
-        }
-        
-        .ticket-header {
-            background: linear-gradient(45deg, var(--primary-color), #ff9800);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .ticket-event {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .ticket-artist {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-        
-        .ticket-info {
-            padding: 20px;
-        }
-        
-        .ticket-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .ticket-location, .ticket-date, .ticket-time {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .ticket-price {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-light);
-            margin-bottom: 15px;
-        }
-        
-        .ticket-status {
-            display: inline-block;
-            background: #4caf50;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        .ticket-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .action-btn {
-            flex: 1;
-            background: #f8f9fa;
-            border: 1px solid var(--border-light);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            color: #666;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .action-btn:hover {
-            background: #e9ecef;
-        }
-        
-        .action-btn.primary {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-        
-        .action-btn.primary:hover {
-            background: #e65100;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-        
-        .empty-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-        
-        .empty-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text-light);
-        }
-        
-        .empty-desc {
-            margin-bottom: 30px;
-        }
-        
-        .browse-events-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
         /* Responsive */
         @media (max-width: 480px) {
             .main-title {
@@ -1046,90 +894,12 @@
             </div>
         </div>
         
-        <!-- ÉCRAN TICKETS -->
-        <div class="screen" id="tickets-screen">
-            <div class="header">
-                <div></div>
-                <h1 class="main-title">🎫 Mes Tickets</h1>
-                <div></div>
-            </div>
-            
-            <div class="tabs">
-                <div class="tab active" onclick="showTicketsTab('upcoming')">📅 À venir</div>
-                <div class="tab" onclick="showTicketsTab('past')">📚 Passés</div>
-                <div class="tab" onclick="showTicketsTab('cancelled')">❌ Annulés</div>
-            </div>
-            
-            <div id="upcoming-tickets" class="tickets-content">
-                <div class="ticket-card">
-                    <div class="ticket-header">
-                        <div class="ticket-event">Utopia - Circus Maximus Tour</div>
-                        <div class="ticket-artist">Travis Scott</div>
-                    </div>
-                    <div class="ticket-info">
-                        <div class="ticket-details">
-                            <div class="ticket-location">📍 Madison Square Garden, New York</div>
-                            <div class="ticket-date">📅 Mar 14, 2025</div>
-                        </div>
-                        <div class="ticket-details">
-                            <div class="ticket-time">🕐 20:00</div>
-                            <div class="ticket-price">$175</div>
-                        </div>
-                        <div class="ticket-status">✅ Confirmé</div>
-                        <div class="ticket-actions">
-                            <button class="action-btn" onclick="downloadTicket('travis-scott')">📥 Télécharger</button>
-                            <button class="action-btn primary" onclick="viewTicket('travis-scott')">👁️ Voir</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="ticket-card">
-                    <div class="ticket-header">
-                        <div class="ticket-event">EDC Las Vegas 2025</div>
-                        <div class="ticket-artist">Various DJs</div>
-                    </div>
-                    <div class="ticket-info">
-                        <div class="ticket-details">
-                            <div class="ticket-location">📍 Las Vegas Motor Speedway</div>
-                            <div class="ticket-date">📅 May 16, 2025</div>
-                        </div>
-                        <div class="ticket-details">
-                            <div class="ticket-time">🕐 18:00</div>
-                            <div class="ticket-price">$399</div>
-                        </div>
-                        <div class="ticket-status">✅ Confirmé</div>
-                        <div class="ticket-actions">
-                            <button class="action-btn" onclick="downloadTicket('edc-vegas')">📥 Télécharger</button>
-                            <button class="action-btn primary" onclick="viewTicket('edc-vegas')">👁️ Voir</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="past-tickets" class="tickets-content" style="display: none;">
-                <div class="empty-state">
-                    <div class="empty-icon">📚</div>
-                    <div class="empty-title">Aucun événement passé</div>
-                    <div class="empty-desc">Vous n'avez pas encore assisté à d'événements</div>
-                    <button class="browse-events-btn" onclick="browseEvents()">🎵 Découvrir des événements</button>
-                </div>
-            </div>
-            
-            <div id="cancelled-tickets" class="tickets-content" style="display: none;">
-                <div class="empty-state">
-                    <div class="empty-icon">❌</div>
-                    <div class="empty-title">Aucun billet annulé</div>
-                    <div class="empty-desc">Tous vos billets sont confirmés</div>
-                </div>
-            </div>
-        </div>
-        
         <!-- Navigation bottom -->
         <div class="bottom-nav">
             <div class="nav-item active" onclick="showScreen('home-screen')">🏠 Home</div>
             <div class="nav-item" onclick="showScreen('discover-screen')">🔍 Discover</div>
             <div class="nav-item create" onclick="showScreen('create-screen')">+</div>
-            <div class="nav-item" onclick="showScreen('tickets-screen')">🎫 Tickets</div>
+            <div class="nav-item">🎫 Tickets</div>
             <div class="nav-item" onclick="showScreen('profile-screen')">👤 Profile</div>
         </div>
     </div>
@@ -1188,8 +958,6 @@
                 navItems[0].classList.add('active');
             } else if (screenId === 'discover-screen') {
                 navItems[1].classList.add('active');
-            } else if (screenId === 'tickets-screen') {
-                navItems[3].classList.add('active');
             } else if (screenId === 'profile-screen') {
                 navItems[4].classList.add('active');
             }
@@ -1232,40 +1000,6 @@
             setTimeout(() => {
                 document.body.removeChild(toast);
             }, 2000);
-        }
-        
-        // Fonction pour afficher les onglets des tickets
-        function showTicketsTab(tabName) {
-            // Masquer tous les contenus de tickets
-            const ticketContents = document.querySelectorAll('.tickets-content');
-            ticketContents.forEach(content => content.style.display = 'none');
-            
-            // Afficher le contenu sélectionné
-            const selectedContent = document.getElementById(tabName + '-tickets');
-            if (selectedContent) {
-                selectedContent.style.display = 'block';
-            }
-            
-            // Mettre à jour la navigation des onglets
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-        
-        // Fonction pour télécharger un billet
-        function downloadTicket(eventId) {
-            showMessage(`📥 Téléchargement du billet pour ${eventId}...`);
-        }
-        
-        // Fonction pour voir un billet
-        function viewTicket(eventId) {
-            showMessage(`👁️ Affichage du billet pour ${eventId}...`);
-        }
-        
-        // Fonction pour parcourir les événements
-        function browseEvents() {
-            showMessage('🎵 Redirection vers la découverte d\'événements...');
-            showScreen('discover-screen');
         }
         
         // Initialisation au chargement

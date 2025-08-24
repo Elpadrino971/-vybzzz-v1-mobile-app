@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets - Vybzzz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            color: #1a1a1a;
+            padding-bottom: 80px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 20px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .main-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 0 20px 20px;
+        }
+        
+        .tab {
+            font-size: 18px;
+            color: #666;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .tab.active {
+            color: #1a1a1a;
+            border-bottom: 2px solid #f57c00;
+        }
+        
+        .ticket-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin: 20px;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .ticket-header {
+            background: linear-gradient(45deg, #f57c00, #ff9800);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .ticket-event {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .ticket-artist {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .ticket-info {
+            padding: 20px;
+        }
+        
+        .ticket-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .ticket-location, .ticket-date, .ticket-time {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .ticket-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+        
+        .ticket-status {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .ticket-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .action-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .action-btn.primary {
+            background: #f57c00;
+            color: white;
+            border-color: #f57c00;
+        }
+        
+        .action-btn.primary:hover {
+            background: #e65100;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        
+        .empty-desc {
+            margin-bottom: 30px;
+        }
+        
+        .browse-events-btn {
+            background: #f57c00;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            color: #f57c00;
+        }
+        
+        .nav-item.create {
+            background: #f44336;
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            margin-top: -8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="main-title">🎫 Mes Tickets</h1>
+        <p class="subtitle">Gérez vos billets et événements</p>
+    </div>
+    
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('upcoming')">📅 À venir</div>
+        <div class="tab" onclick="showTab('past')">📚 Passés</div>
+        <div class="tab" onclick="showTab('cancelled')">❌ Annulés</div>
+    </div>
+    
+    <div id="upcoming-tab" class="tab-content">
+        <div class="ticket-card">
+            <div class="ticket-header">
+                <div class="ticket-event">Utopia - Circus Maximus Tour</div>
+                <div class="ticket-artist">Travis Scott</div>
+            </div>
+            <div class="ticket-info">
+                <div class="ticket-details">
+                    <div class="ticket-location">📍 Madison Square Garden, New York</div>
+                    <div class="ticket-date">📅 Mar 14, 2025</div>
+                </div>
+                <div class="ticket-details">
+                    <div class="ticket-time">🕐 20:00</div>
+                    <div class="ticket-price">$175</div>
+                </div>
+                <div class="ticket-status">✅ Confirmé</div>
+                <div class="ticket-actions">
+                    <button class="action-btn" onclick="downloadTicket('travis-scott')">📥 Télécharger</button>
+                    <button class="action-btn primary" onclick="viewTicket('travis-scott')">👁️ Voir</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ticket-card">
+            <div class="ticket-header">
+                <div class="ticket-event">EDC Las Vegas 2025</div>
+                <div class="ticket-artist">Various DJs</div>
+            </div>
+            <div class="ticket-info">
+                <div class="ticket-details">
+                    <div class="ticket-location">📍 Las Vegas Motor Speedway</div>
+                    <div class="ticket-date">📅 May 16, 2025</div>
+                </div>
+                <div class="ticket-details">
+                    <div class="ticket-time">🕐 18:00</div>
+                    <div class="ticket-price">$399</div>
+                </div>
+                <div class="ticket-status">✅ Confirmé</div>
+                <div class="ticket-actions">
+                    <button class="action-btn" onclick="downloadTicket('edc-vegas')">📥 Télécharger</button>
+                    <button class="action-btn primary" onclick="viewTicket('edc-vegas')">👁️ Voir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="past-tab" class="tab-content" style="display: none;">
+        <div class="empty-state">
+            <div class="empty-icon">📚</div>
+            <div class="empty-title">Aucun événement passé</div>
+            <div class="empty-desc">Vous n'avez pas encore assisté à d'événements</div>
+            <button class="browse-events-btn" onclick="browseEvents()">🎵 Découvrir des événements</button>
+        </div>
+    </div>
+    
+    <div id="cancelled-tab" class="tab-content" style="display: none;">
+        <div class="empty-state">
+            <div class="empty-icon">❌</div>
+            <div class="empty-title">Aucun billet annulé</div>
+            <div class="empty-desc">Tous vos billets sont confirmés</div>
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item">🏠 Home</div>
+        <div class="nav-item">🔍 Discover</div>
+        <div class="nav-item create">+</div>
+        <div class="nav-item active">🎫 Tickets</div>
+        <div class="nav-item">👤 Profile</div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Masquer tous les onglets
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.style.display = 'none');
+            
+            // Afficher l'onglet sélectionné
+            const selectedTab = document.getElementById(tabName + '-tab');
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+            }
+            
+            // Mettre à jour la navigation des onglets
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        function downloadTicket(eventId) {
+            showMessage(`📥 Téléchargement du billet pour ${eventId}...`);
+        }
+        
+        function viewTicket(eventId) {
+            showMessage(`👁️ Affichage du billet pour ${eventId}...`);
+        }
+        
+        function browseEvents() {
+            showMessage('🎵 Redirection vers la découverte d\'événements...');
+        }
+        
+        function showMessage(text) {
+            // Créer un toast temporaire
+            const toast = document.createElement('div');
+            toast.textContent = text;
+            toast.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #f57c00;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 25px;
+                font-weight: 600;
+                z-index: 2000;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Supprimer après 2 secondes
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 2000);
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // L'onglet "À venir" est affiché par défaut
+            showTab('upcoming');
+        });
+    </script>
+</body>
+</html>
