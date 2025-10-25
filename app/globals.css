@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-800;
+  }
+
+  body {
+    @apply bg-vybzzz-dark text-white;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-vybzzz-gradient bg-clip-text text-transparent;
+  }
+}

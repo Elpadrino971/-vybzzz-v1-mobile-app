@@ -48,3 +48,20 @@ lib/common/config/deepar_config.dart
 /android/app/release
 /android/app/.cxx
 /ios/build
+
+# Next.js
+/node_modules
+/.pnp
+.pnp.js
+/.next/
+/out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+
+# Local env files
+.env
+.env*.local
