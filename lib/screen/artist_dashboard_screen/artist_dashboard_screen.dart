@@ -7,6 +7,7 @@ import 'package:vybzzz/utilities/text_style_custom.dart';
 import 'package:vybzzz/utilities/theme_res.dart';
 import 'package:figma_squircle_updated/figma_squircle.dart';
 import 'package:intl/intl.dart';
+import 'package:vybzzz/routes/vybzzz_routes.dart';
 
 /// Dashboard Artiste VyBzzZ
 class ArtistDashboardScreen extends StatelessWidget {
@@ -86,6 +87,19 @@ class ArtistDashboardScreen extends StatelessWidget {
             }),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => VyBzzZRoutes.toQRScanner(),
+        backgroundColor: const Color(0xFFFFD700),
+        foregroundColor: Colors.black,
+        icon: const Icon(Icons.qr_code_scanner),
+        label: const Text(
+          'Scanner',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
       ),
     );
   }

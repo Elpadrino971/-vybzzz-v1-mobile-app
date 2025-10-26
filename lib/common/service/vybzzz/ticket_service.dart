@@ -175,6 +175,18 @@ class TicketService {
     }
   }
 
+  /// Marque un billet comme utilisé
+  Future<void> markTicketAsUsed(String ticketId) async {
+    try {
+      await _firestore.collection(_collectionName).doc(ticketId).update({
+        'status': TicketStatus.used.value,
+        'scanned_at': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      throw Exception('Erreur lors du marquage du billet: $e');
+    }
+  }
+
   /// Valide un billet (marque comme utilisé)
   Future<bool> validateTicket(String qrCode) async {
     try {

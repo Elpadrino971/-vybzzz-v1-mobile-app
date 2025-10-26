@@ -9,6 +9,7 @@ import 'package:vybzzz/screen/create_event_screen/create_event_screen.dart';
 import 'package:vybzzz/screen/my_tickets_screen/my_tickets_screen.dart';
 import 'package:vybzzz/screen/artist_dashboard_screen/artist_dashboard_screen.dart';
 import 'package:vybzzz/screen/main_navigation_screen/main_navigation_screen.dart';
+import 'package:vybzzz/screen/qr_scanner_screen/qr_scanner_screen.dart';
 
 /// Routes VyBzzZ
 class VyBzzZRoutes {
@@ -31,6 +32,7 @@ class VyBzzZRoutes {
 
   // Tickets
   static const String myTickets = '/my-tickets';
+  static const String qrScanner = '/qr-scanner';
 
   // Artist
   static const String artistDashboard = '/artist-dashboard';
@@ -99,6 +101,11 @@ class VyBzzZRoutes {
         page: () => const MyTicketsScreen(),
         transition: Transition.fadeIn,
       ),
+      GetPage(
+        name: qrScanner,
+        page: () => const QRScannerScreen(),
+        transition: Transition.downToUp,
+      ),
 
       // Artist
       GetPage(
@@ -121,5 +128,6 @@ class VyBzzZRoutes {
       Get.toNamed(eventDetails, arguments: arguments);
   static void toCreateEvent() => Get.toNamed(createEvent);
   static void toMyTickets() => Get.toNamed(myTickets);
+  static void toQRScanner() => Get.toNamed(qrScanner);
   static void toArtistDashboard() => Get.toNamed(artistDashboard);
 }
