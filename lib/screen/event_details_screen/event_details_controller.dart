@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:vybzzz/common/service/vybzzz/event_service.dart';
 import 'package:vybzzz/common/service/vybzzz/ticket_service.dart';
+import 'package:vybzzz/common/service/vybzzz/stripe_service.dart';
 import 'package:vybzzz/model/event_model/vybzzz_event_model.dart';
 import 'package:vybzzz/model/ticket_model/ticket_model.dart';
 import 'package:vybzzz/common/controller/auth_controller.dart';
@@ -9,6 +10,7 @@ import 'package:vybzzz/common/controller/auth_controller.dart';
 class EventDetailsController extends GetxController {
   final EventService _eventService = EventService();
   final TicketService _ticketService = TicketService();
+  final StripeService _stripeService = StripeService();
   final AuthController _authController = Get.find<AuthController>();
 
   // Event
@@ -117,11 +119,32 @@ class EventDetailsController extends GetxController {
     try {
       isPurchasing.value = true;
 
-      // TODO: Intégration Stripe Payment Intent
-      // Pour l'instant, on simule le paiement
-      await Future.delayed(const Duration(seconds: 2));
+      // 1. Créer le Payment Intent avec Stripe
+      final paymentIntentData = await _stripeService.createPaymentIntent(
+        amount: totalPrice,
+        currency: 'eur',
+        buyerId: currentUser.id!,
+        artistId: event.value!.artistId ?? 0,
+        eventId: event.value!.id!,
+        eventTitle: event.value!.title ?? 'Concert',
+        stripeConnectAccountId: null, // Sera récupéré automatiquement
+      );
 
-      // Créer le(s) billet(s)
+      final paymentIntentId = paymentIntentData['paymentIntentId'] as String;
+      final clientSecret = paymentIntentData['clientSecret'] as String;
+
+      // 2. Confirmer le paiement (normalement avec la carte de l'utilisateur)
+      // Pour la démo, on simule la confirmation
+      final paymentSuccess = await _stripeService.confirmPaymentIntent(
+        paymentIntentId: paymentIntentId,
+        clientSecret: clientSecret,
+      );
+
+      if (!paymentSuccess) {
+        throw Exception('Le paiement a échoué');
+      }
+
+      // 3. Créer le(s) billet(s) après le paiement réussi
       final tickets = <TicketModel>[];
       for (int i = 0; i < ticketQuantity.value; i++) {
         final ticket = await _ticketService.createTicket(
@@ -129,7 +152,7 @@ class EventDetailsController extends GetxController {
           userId: currentUser.id!,
           ticketType: selectedTicketType.value!,
           pricePaid: selectedTicketPrice!,
-          stripePaymentIntentId: 'pi_mock_${DateTime.now().millisecondsSinceEpoch}',
+          stripePaymentIntentId: paymentIntentId,
           userName: currentUser.fullname,
           userEmail: currentUser.userEmail,
           eventTitle: event.value!.title,
@@ -138,7 +161,7 @@ class EventDetailsController extends GetxController {
         tickets.add(ticket);
       }
 
-      // Mettre à jour les stats de l'événement
+      // 4. Mettre à jour les stats de l'événement
       await _eventService.incrementTicketSold(
         event.value!.id!,
         selectedTicketType.value!,
