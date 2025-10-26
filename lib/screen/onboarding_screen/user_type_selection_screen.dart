@@ -6,6 +6,8 @@ import 'package:vybzzz/common/widget/theme_blur_bg.dart';
 import 'package:vybzzz/utilities/text_style_custom.dart';
 import 'package:vybzzz/utilities/theme_res.dart';
 import 'package:figma_squircle_updated/figma_squircle.dart';
+import 'package:vybzzz/common/controller/auth_controller.dart';
+import 'package:vybzzz/routes/vybzzz_routes.dart';
 
 /// Écran de sélection du type d'utilisateur VyBzzZ
 ///
@@ -107,10 +109,28 @@ class _UserTypeSelectionScreenState extends State<UserTypeSelectionScreen> {
                         TextButtonCustom(
                           name: 'CONTINUER',
                           onTap: selectedType != null
-                              ? () {
-                                  // Navigation vers l'écran de profil
-                                  Get.toNamed('/profile-setup',
-                                      arguments: {'userType': selectedType});
+                              ? () async {
+                                  // Sauvegarder le type d'utilisateur
+                                  final authController =
+                                      Get.find<AuthController>();
+                                  final currentUser =
+                                      authController.currentUser.value;
+
+                                  if (currentUser != null) {
+                                    // Mettre à jour le type d'utilisateur
+                                    final updatedUser = currentUser.copyWith();
+                                    updatedUser.data ??= {};
+                                    updatedUser.data!['user_type'] =
+                                        selectedType!.value;
+
+                                    // Sauvegarder et naviguer
+                                    final success = await authController
+                                        .updateProfile(updatedUser);
+
+                                    if (success) {
+                                      VyBzzZRoutes.toMainNavigation();
+                                    }
+                                  }
                                 }
                               : null,
                           backgroundColor: selectedType != null

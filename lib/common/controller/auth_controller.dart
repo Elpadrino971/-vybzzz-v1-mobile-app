@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:vybzzz/common/service/vybzzz/auth_service.dart';
 import 'package:vybzzz/model/user_model/user_model.dart';
 import 'package:vybzzz/common/manager/session_manager.dart';
+import 'package:vybzzz/routes/vybzzz_routes.dart';
 
 /// Contrôleur d'authentification VyBzzZ
 ///
@@ -61,6 +62,9 @@ class AuthController extends GetxController {
         // Sauvegarder dans la session
         SessionManager.instance.saveUserID(user.id ?? 0);
         SessionManager.instance.saveToken(firebaseUid);
+
+        // Navigation après connexion
+        _handlePostAuthNavigation(user);
       } else {
         // Profil non trouvé - rediriger vers la création de profil
         authStatus.value = AuthStatus.unauthenticated;
@@ -68,6 +72,20 @@ class AuthController extends GetxController {
     } catch (e) {
       errorMessage.value = 'Erreur lors du chargement du profil: $e';
       authStatus.value = AuthStatus.error;
+    }
+  }
+
+  /// Gère la navigation après l'authentification
+  void _handlePostAuthNavigation(User user) {
+    // Vérifier si l'utilisateur a sélectionné un type
+    final userTypeStr = user.data?['user_type'] as String?;
+
+    if (userTypeStr == null || userTypeStr.isEmpty) {
+      // Pas de type défini - aller vers la sélection du type
+      VyBzzZRoutes.toUserTypeSelection();
+    } else {
+      // Type défini - aller vers l'écran principal
+      VyBzzZRoutes.toMainNavigation();
     }
   }
 

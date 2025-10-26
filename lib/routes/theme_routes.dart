@@ -4,6 +4,7 @@ import 'package:vybzzz/screen/home_with_themes_screen.dart';
 import 'package:vybzzz/screen/complete_theme_test_screen.dart';
 import 'package:vybzzz/screen/advanced_theme_settings_screen.dart';
 import 'package:vybzzz/screen/theme_navigation_screen.dart';
+import 'package:vybzzz/routes/vybzzz_routes.dart';
 
 class ThemeRoutes {
   static const String themeDemo = '/theme-demo';
@@ -14,6 +15,10 @@ class ThemeRoutes {
 
   static List<GetPage> getPages() {
     return [
+      // VyBzzZ routes (primary)
+      ...VyBzzZRoutes.getPages(),
+
+      // Theme demo routes (for testing)
       GetPage(
         name: themeDemo,
         page: () => const ThemeDemoScreen(),
