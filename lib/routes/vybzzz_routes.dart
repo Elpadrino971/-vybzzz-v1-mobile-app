@@ -10,6 +10,8 @@ import 'package:vybzzz/screen/my_tickets_screen/my_tickets_screen.dart';
 import 'package:vybzzz/screen/artist_dashboard_screen/artist_dashboard_screen.dart';
 import 'package:vybzzz/screen/main_navigation_screen/main_navigation_screen.dart';
 import 'package:vybzzz/screen/qr_scanner_screen/qr_scanner_screen.dart';
+import 'package:vybzzz/screen/live_concert_screen/live_concert_screen.dart';
+import 'package:vybzzz/screen/artist_live_screen/artist_live_screen.dart';
 
 /// Routes VyBzzZ
 class VyBzzZRoutes {
@@ -36,6 +38,10 @@ class VyBzzZRoutes {
 
   // Artist
   static const String artistDashboard = '/artist-dashboard';
+
+  // Live Streaming
+  static const String liveConcert = '/live-concert';
+  static const String artistLive = '/artist-live';
 
   /// Get all VyBzzZ pages
   static List<GetPage> getPages() {
@@ -113,6 +119,18 @@ class VyBzzZRoutes {
         page: () => const ArtistDashboardScreen(),
         transition: Transition.fadeIn,
       ),
+
+      // Live Streaming
+      GetPage(
+        name: liveConcert,
+        page: () => const LiveConcertScreen(),
+        transition: Transition.fadeIn,
+      ),
+      GetPage(
+        name: artistLive,
+        page: () => const ArtistLiveScreen(),
+        transition: Transition.fadeIn,
+      ),
     ];
   }
 
@@ -130,4 +148,8 @@ class VyBzzZRoutes {
   static void toMyTickets() => Get.toNamed(myTickets);
   static void toQRScanner() => Get.toNamed(qrScanner);
   static void toArtistDashboard() => Get.toNamed(artistDashboard);
+  static void toLiveConcert({Map<String, dynamic>? arguments}) =>
+      Get.toNamed(liveConcert, arguments: arguments);
+  static void toArtistLive({Map<String, dynamic>? arguments}) =>
+      Get.toNamed(artistLive, arguments: arguments);
 }
