@@ -1,224 +1,277 @@
-# VyBzzZ - Plateforme de Concerts Live avec Paiement Immédiat
+# 🎵 VyBzzZ - Application Mobile de Concerts Live
 
-VyBzzZ est la première plateforme qui paie les artistes **instantanément** après leur concert. Fini l'attente de 7-30 jours.
+VyBzzZ est la première plateforme mobile qui permet aux artistes de diffuser leurs concerts en live et de recevoir leurs paiements tous les **lundis à J+14**. Fini l'attente de 7-30 jours !
 
-## Stack Technique
+## 🚀 Stack Technique
 
-- **Frontend**: Next.js 14 + React 18 + TypeScript + Tailwind CSS
-- **Backend**: Supabase (PostgreSQL + Auth + Realtime)
+- **Frontend Mobile**: Flutter 3.5+ / Dart
+- **Backend**: Firebase (Firestore + Auth + Storage)
 - **Streaming**: 100MS Live
 - **Paiements**: Stripe Connect
-- **Déploiement**: Vercel + Supabase Cloud
+- **Design**: Material Design avec thèmes personnalisés
 
-## Fonctionnalités Principales
+## ✨ Fonctionnalités Principales
 
-- Authentification (email + Google OAuth)
-- Création et gestion d'événements
-- Achat de billets avec QR codes
+### 👥 5 Types de Comptes
+- **Fan** : Achetez des billets et profitez des concerts
+- **Artiste** : Organisez des concerts et recevez vos paiements
+- **Apporteur d'Affaire** : Gagnez des commissions d'affiliation (2.5% / 1.5% / 1%)
+- **Responsable Régional** : Gérez les opérations dans votre région
+- **Propriétaire de Salle** : Louez votre salle pour des concerts
+
+### 💰 Abonnements Artistes (Paiements J+14 tous les lundis)
+- **Basic (19,99€/mois)** : 50% artiste / 50% plateforme
+- **Pro (59,99€/mois)** : 60% artiste / 40% plateforme
+- **Premium (129,99€/mois)** : 70% artiste / 30% plateforme
+
+### 🎫 3 Types de Billets
+- **Virtuel** : Regardez depuis chez vous (le moins cher)
+- **Physique** : Assistez au concert sur place (le plus cher)
+- **Fanbase** : Visionnage collectif dans une salle locale
+
+### 🎥 Concerts & Streaming
 - Live streaming HD avec 100MS
-- Chat en temps réel
+- **Replay disponible 7 jours** après le concert
+- Chat en temps réel pendant le live
 - Système de pourboires
-- Transferts immédiats aux artistes (via Stripe Connect)
-- Commission 10% (la plus basse du marché)
+- QR codes pour les billets
 - Analytics en temps réel
 
-## Installation
+### ⚡ Happy Hour
+- Chaque mercredi à 20h pendant 15 minutes
+- Prix réduits sur tous les types de billets
+- Gamification et engagement utilisateur
+
+## 📱 Installation
 
 ### Prérequis
 
-- Node.js 18+
-- npm ou yarn
-- Un compte Supabase
+- Flutter 3.5+
+- Dart SDK
+- Android Studio / Xcode
+- Un compte Firebase
 - Un compte Stripe
 - Un compte 100MS Live
 
 ### 1. Cloner le projet
 
 ```bash
-git clone https://github.com/votre-repo/vybzzz.git
-cd vybzzz
+git clone https://github.com/Elpadrino971/-vybzzz-v1-mobile-app.git
+cd -vybzzz-v1-mobile-app
 ```
 
 ### 2. Installer les dépendances
 
 ```bash
-npm install
+flutter pub get
 ```
 
-### 3. Configuration Supabase
+### 3. Configuration Firebase
 
-1. Créer un projet sur [supabase.com](https://supabase.com)
-2. Exécuter le script SQL dans `supabase/schema.sql` dans l'éditeur SQL
-3. Activer l'authentification Google dans les settings
-4. Récupérer les clés API (URL + anon key)
+1. Créer un projet sur [firebase.google.com](https://firebase.google.com)
+2. Ajouter une application Android et iOS
+3. Télécharger les fichiers de configuration :
+   - `google-services.json` → `android/app/`
+   - `GoogleService-Info.plist` → `ios/Runner/`
+4. Activer Authentication (Email + Google)
+5. Activer Firestore Database
+6. Activer Storage
 
 ### 4. Configuration Stripe
 
 1. Créer un compte sur [stripe.com](https://stripe.com)
 2. Activer Stripe Connect
 3. Récupérer les clés API (publishable key + secret key)
-4. Configurer le webhook endpoint : `https://votre-domaine.com/api/stripe/webhook`
-5. Récupérer le webhook secret
+4. Configurer le webhook (voir documentation)
 
 ### 5. Configuration 100MS
 
 1. Créer un compte sur [100ms.live](https://www.100ms.live)
 2. Créer une application
 3. Récupérer l'App ID et le Management Token
+4. Mettre à jour `lib/common/config/hms_config.dart`
 
 ### 6. Variables d'environnement
 
-Copier `.env.example` vers `.env` et remplir les valeurs :
-
-```bash
-cp .env.example .env
-```
+Créer un fichier `.env` à la racine :
 
 ```env
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=https://votre-projet.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=votre_anon_key
-SUPABASE_SERVICE_ROLE_KEY=votre_service_role_key
+# Firebase (déjà configuré via google-services.json)
 
 # Stripe
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 
 # 100MS Live
-NEXT_PUBLIC_HMS_APP_ID=votre_app_id
-HMS_MANAGEMENT_TOKEN=votre_management_token
-
-# App
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+HMS_APP_ID=your_app_id
+HMS_MANAGEMENT_TOKEN=your_management_token
 ```
 
-### 7. Lancer le serveur de développement
+### 7. Lancer l'application
 
 ```bash
-npm run dev
+# Android
+flutter run
+
+# iOS
+flutter run -d ios
+
+# Build pour production
+flutter build apk --release
+flutter build ios --release
 ```
 
-Ouvrir [http://localhost:3000](http://localhost:3000) dans votre navigateur.
+## 🎨 Thèmes
 
-## Déploiement
+L'application dispose de 2 thèmes professionnels :
 
-### Déployer sur Vercel
+### 🌞 Mode Clair (Blanc et Doré)
+- Fond : Blanc cassé (#F5F5F5)
+- Accent : Or vif (#FFD700)
+- Gradient : Or → Orange doré
 
-1. Connecter votre repo GitHub à Vercel
-2. Configurer les variables d'environnement
-3. Déployer
+### 🌙 Mode Sombre (Noir et Rouge Netflix)
+- Fond : Noir pur (#000000)
+- Accent : Rouge Netflix (#E50914)
+- Gradient : Rouge Netflix → Rouge foncé
 
-```bash
-npm run build
-```
-
-### Configurer le webhook Stripe
-
-Après déploiement, configurer l'URL du webhook dans Stripe :
+## 📂 Structure du Projet
 
 ```
-https://votre-domaine.vercel.app/api/stripe/webhook
+lib/
+├── common/
+│   ├── config/           # Configuration (HMS, Domain, etc.)
+│   ├── controller/       # Contrôleurs globaux
+│   ├── enum/             # Énumérations (UserType, SubscriptionTier, etc.)
+│   ├── extensions/       # Extensions Dart
+│   ├── manager/          # Gestionnaires (Theme, Session, etc.)
+│   ├── service/          # Services (API, Navigation, etc.)
+│   └── widget/           # Widgets réutilisables
+├── model/
+│   ├── user_model/       # Modèles utilisateur (avec extensions VyBzzZ)
+│   ├── event_model/      # Modèles d'événements
+│   ├── livestream/       # Modèles de live streaming
+│   └── ...
+├── screen/               # Écrans de l'application
+├── routes/               # Configuration des routes
+├── utilities/            # Utilitaires (Theme, Color, Font, etc.)
+└── main.dart             # Point d'entrée
 ```
 
-Événements à écouter :
-- `payment_intent.succeeded`
-- `payment_intent.payment_failed`
+## 🔥 Fonctionnalités VyBzzZ
 
-## Structure du Projet
+### Modèles de Données
 
-```
-vybzzz/
-├── app/
-│   ├── (auth)/
-│   │   ├── login/page.tsx
-│   │   └── signup/page.tsx
-│   ├── api/
-│   │   ├── stripe/
-│   │   │   ├── checkout/route.ts
-│   │   │   ├── webhook/route.ts
-│   │   │   ├── connect/route.ts
-│   │   │   └── tip/route.ts
-│   │   └── hms/token/route.ts
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── globals.css
-├── components/
-│   ├── ui/
-│   │   ├── Button.tsx
-│   │   ├── Input.tsx
-│   │   ├── Card.tsx
-│   │   └── Logo.tsx
-│   └── Navbar.tsx
-├── lib/
-│   ├── supabase/
-│   │   ├── client.ts
-│   │   └── server.ts
-│   ├── hooks/useAuth.ts
-│   └── utils.ts
-├── supabase/schema.sql
-└── README.md
+#### UserType (5 types)
+```dart
+enum UserType {
+  fan,                  // Spectateur
+  artist,               // Artiste
+  businessBringer,      // Apporteur d'affaire
+  regionalManager,      // Responsable régional
+  venueOwner,          // Propriétaire de salle
+}
 ```
 
-## Utilisation
+#### SubscriptionTier (3 niveaux)
+```dart
+enum SubscriptionTier {
+  basic,    // 19.99€ - 50/50
+  pro,      // 59.99€ - 60/40
+  premium,  // 129.99€ - 70/30
+}
+```
 
-### Créer un compte Artiste
+#### VyBzzZEvent (avec replay 7 jours)
+```dart
+class VyBzzZEvent {
+  String? replayUrl;
+  DateTime? replayExpiresAt;  // 7 jours après le concert
+  bool? replayAvailable;
 
-1. S'inscrire avec le type "Artiste"
-2. Configurer Stripe Connect pour recevoir les paiements
-3. Créer un événement
-4. Partager le lien avec vos fans
+  double? ticketPriceVirtual;
+  double? ticketPricePhysical;
+  double? ticketPriceFanbase;
 
-### Acheter un billet
+  bool? isHappyHour;
+  // ... (voir modèle complet)
+}
+```
 
-1. S'inscrire avec le type "Fan"
-2. Parcourir les événements
-3. Acheter un billet
-4. Recevoir le QR code par email
+## 💳 Modèle de Paiement
 
-### Lancer un live
+### Revenus Artiste
+- **Basic (19,99€/mois)** : L'artiste reçoit 50% des ventes
+- **Pro (59,99€/mois)** : L'artiste reçoit 60% des ventes
+- **Premium (129,99€/mois)** : L'artiste reçoit 70% des ventes
 
-1. Créer un événement de type "Live"
-2. Configurer la date et le prix
-3. Cliquer sur "Démarrer le live" à l'heure prévue
-4. Vos fans reçoivent une notification
-5. Streamer via 100MS
-6. Recevoir les pourboires en direct
+### Transferts
+- Paiement tous les **lundis**
+- Délai : **J+14** après le concert
+- Frais Stripe : ~2.9% + 0.25€
 
-## Modèle Économique
-
-- **Commission billets** : 10% (vs 10-15% chez les concurrents)
-- **Commission pourboires** : 5%
-- **Transfert** : Immédiat après le concert
-- **Frais Stripe** : ~2.9% + 0.25€
-
-Exemple de revenus pour un concert avec 100 billets à 20€ :
+### Exemple
+Concert avec 100 billets virtuels à 20€ (Artiste Pro - 60/40) :
 - Revenus bruts : 2 000€
-- Commission VyBzzZ (10%) : 200€
+- Commission VyBzzZ (40%) : 800€
 - Frais Stripe (~3%) : 60€
-- **Revenus artiste : 1 740€ (87%)**
-- **Transfert : IMMÉDIAT**
+- **Revenus artiste : 1 200€ (60%)**
+- **Transfert : Lundi J+14**
 
-## Sécurité
+## 🔐 Sécurité
 
-- Row Level Security (RLS) activé sur toutes les tables Supabase
-- Vérification de signature webhook Stripe
-- HTTPS obligatoire (via Vercel)
+- Firebase Authentication (Email + Google)
+- Firestore Security Rules
+- Stripe Payment Intent avec 3D Secure
+- HTTPS obligatoire
 - Variables d'environnement sécurisées
-- Authentification JWT via Supabase
 
-## Support
+## 📝 Documentation
+
+- [Guide de Configuration Complète](SETUP_GUIDE.md)
+- [Schéma Firebase/Firestore](FIREBASE_SCHEMA.md)
+- [Guide des Thèmes](COLOR_THEME_GUIDE.md)
+- [Guide des Composants](COMPONENTS_COMPLETE_GUIDE.md)
+- [Migration 100MS](MIGRATION_100MS.md)
+
+## 🚧 Roadmap
+
+### MVP (30 Novembre 2025)
+- [x] Authentification
+- [x] Profils utilisateurs (5 types)
+- [x] Système de thèmes
+- [ ] Création d'événements
+- [ ] Achat de billets (3 types)
+- [ ] Live streaming 100MS
+- [ ] Replay 7 jours
+- [ ] Paiements Stripe Connect
+- [ ] Dashboard artiste
+
+### Phase 2
+- [ ] Shorts auto-générés (AI)
+- [ ] Feed TikTok-style
+- [ ] Happy Hour automatique
+- [ ] Système d'affiliation multi-niveaux
+- [ ] NFT ticketing
+- [ ] Token $VYBZ
+
+## 🎯 Objectif
+
+Plateforme 100% opérationnelle le **30 novembre 2025** pour le concert de **David Guetta le 31 décembre 2025**.
+
+## 📞 Support
 
 Pour toute question ou problème :
 - Email : support@vybzzz.com
 - Discord : [discord.gg/vybzzz](https://discord.gg/vybzzz)
 
-## Licence
+## 📄 Licence
 
 © 2025 VyBzzZ. Tous droits réservés.
 
 ---
 
-**Créé avec amour par Jean-Sébastien LOUIS-GUSTAVE**
+**Créé avec ❤️ par Jean-Sébastien LOUIS-GUSTAVE**
 
-Deadline : 31 décembre 2025
+Deadline : 30 novembre 2025 🚀
