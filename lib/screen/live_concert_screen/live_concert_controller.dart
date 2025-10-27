@@ -42,9 +42,18 @@ class LiveConcertController extends GetxController {
   // Stats
   final RxInt viewerCount = 0.obs;
   final RxInt totalTips = 0.obs; // En Vybz maintenant
+  final RxInt totalLikes = 0.obs;
 
   // User balance
   final RxInt userBalance = 0.obs;
+
+  // UI State
+  final RxBool isFullscreen = false.obs;
+  final RxList<LikeAnimation> activeHearts = <LikeAnimation>[].obs;
+
+  // Brightness control
+  final RxDouble brightness = 0.5.obs;
+  final RxBool showBrightnessIndicator = false.obs;
 
   @override
   void onInit() {
@@ -53,6 +62,51 @@ class LiveConcertController extends GetxController {
     _listenToChat();
     _listenToViewerCount();
     _loadUserBalance();
+    _initBrightness();
+  }
+
+  // ============================================
+  // BRIGHTNESS
+  // ============================================
+
+  Future<void> _initBrightness() async {
+    try {
+      // Récupérer la luminosité actuelle du système
+      // final currentBrightness = await ScreenBrightness().current;
+      // brightness.value = currentBrightness;
+      brightness.value = 0.5; // Valeur par défaut
+    } catch (e) {
+      Loggers.error('Erreur init brightness: $e');
+    }
+  }
+
+  Future<void> setBrightness(double value) async {
+    try {
+      // Limiter entre 0 et 1
+      final newBrightness = value.clamp(0.0, 1.0);
+      brightness.value = newBrightness;
+
+      // Appliquer au système
+      // await ScreenBrightness().setScreenBrightness(newBrightness);
+
+      // Afficher l'indicateur
+      showBrightnessIndicator.value = true;
+
+      // Masquer après 1 seconde
+      Future.delayed(const Duration(seconds: 1), () {
+        showBrightnessIndicator.value = false;
+      });
+    } catch (e) {
+      Loggers.error('Erreur set brightness: $e');
+    }
+  }
+
+  void handleVerticalDragUpdate(DragUpdateDetails details, double screenHeight) {
+    // Swipe vers le haut = augmenter luminosité
+    // Swipe vers le bas = diminuer luminosité
+    final delta = -details.delta.dy / screenHeight;
+    final newBrightness = brightness.value + delta;
+    setBrightness(newBrightness);
   }
 
   // ============================================
@@ -294,6 +348,112 @@ class LiveConcertController extends GetxController {
       viewerCount.value = count;
     });
   }
+
+  // ============================================
+  // LIKES / REACTIONS
+  // ============================================
+
+  Future<void> sendLike() async {
+    try {
+      final user = _authController.currentUser.value;
+      if (user == null) return;
+
+      // Incrémenter le compteur local
+      totalLikes.value++;
+
+      // Ajouter l'animation de coeur
+      activeHearts.add(LikeAnimation());
+
+      // Supprimer après l'animation (3 secondes)
+      Future.delayed(const Duration(seconds: 3), () {
+        if (activeHearts.isNotEmpty) {
+          activeHearts.removeAt(0);
+        }
+      });
+
+      // Envoyer à Firestore pour synchroniser avec les autres viewers
+      await _chatService.sendSystemMessage(
+        eventId: event.id!,
+        message: '${user.fullname} a aimé ❤️',
+      );
+    } catch (e) {
+      Loggers.error('Erreur send like: $e');
+    }
+  }
+
+  // ============================================
+  // PARTAGE
+  // ============================================
+
+  Future<void> shareEvent() async {
+    try {
+      // Import share_plus package nécessaire
+      // await Share.share(
+      //   'Rejoins-moi sur le live de ${event.artistName}!\n\n'
+      //   '${event.title}\n'
+      //   'Sur VyBzzZ - L\'app des concerts live 🎵\n\n'
+      //   'Télécharge VyBzzZ: https://vybzzz.com/download',
+      //   subject: 'Concert live: ${event.title}',
+      // );
+
+      Get.snackbar(
+        'Partage',
+        'Fonctionnalité de partage disponible prochainement!',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 2),
+      );
+    } catch (e) {
+      Loggers.error('Erreur share: $e');
+    }
+  }
+
+  // ============================================
+  // FULLSCREEN
+  // ============================================
+
+  void toggleFullscreen() {
+    isFullscreen.value = !isFullscreen.value;
+
+    // Masquer le chat en mode fullscreen
+    if (isFullscreen.value) {
+      isChatVisible.value = false;
+    }
+  }
+
+  // ============================================
+  // CASTING (Chromecast / AirPlay)
+  // ============================================
+
+  Future<void> startCasting() async {
+    try {
+      // Import flutter_cast package nécessaire
+      // CastDevices disponibles via flutter_cast
+
+      Get.snackbar(
+        'Casting',
+        'Recherche d\'appareils disponibles...\n'
+        'Chromecast et AirPlay seront bientôt disponibles!',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 3),
+      );
+    } catch (e) {
+      Loggers.error('Erreur casting: $e');
+    }
+  }
+}
+
+/// Classe pour gérer les animations de likes (coeurs qui montent)
+class LikeAnimation {
+  final String id;
+  final double left;
+  final double rotation;
+  final Duration duration;
+
+  LikeAnimation()
+      : id = DateTime.now().millisecondsSinceEpoch.toString(),
+        left = 50 + (DateTime.now().millisecondsSinceEpoch % 30).toDouble(),
+        rotation = (DateTime.now().millisecondsSinceEpoch % 100 - 50) / 100,
+        duration = Duration(milliseconds: 2000 + (DateTime.now().millisecondsSinceEpoch % 1000));
 }
 
 /// Modal pour envoyer un tip

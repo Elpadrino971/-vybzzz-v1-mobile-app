@@ -47,8 +47,17 @@ class LiveConcertScreen extends StatelessWidget {
 
         return Stack(
           children: [
-            // Video Player
-            _buildVideoPlayer(controller, context),
+            // Video Player (with double tap to like & vertical swipe for brightness)
+            GestureDetector(
+              onDoubleTap: controller.sendLike,
+              onVerticalDragUpdate: (details) {
+                controller.handleVerticalDragUpdate(
+                  details,
+                  MediaQuery.of(context).size.height,
+                );
+              },
+              child: _buildVideoPlayer(controller, context),
+            ),
 
             // Top overlay with stats
             _buildTopOverlay(controller, context),
@@ -56,6 +65,15 @@ class LiveConcertScreen extends StatelessWidget {
             // Chat overlay
             if (controller.isChatVisible.value)
               _buildChatOverlay(controller, context),
+
+            // Like animations (hearts flying up)
+            _buildLikeAnimations(controller),
+
+            // Brightness indicator (left side, appears on swipe)
+            _buildBrightnessIndicator(controller),
+
+            // Right side buttons
+            _buildRightSideButtons(controller),
 
             // Bottom controls
             _buildBottomControls(controller, context),
@@ -379,6 +397,229 @@ class LiveConcertScreen extends StatelessWidget {
       ),
     );
   }
+
+  // ============================================
+  // LIKE ANIMATIONS
+  // ============================================
+
+  Widget _buildLikeAnimations(LiveConcertController controller) {
+    return Positioned.fill(
+      child: IgnorePointer(
+        child: Obx(() {
+          return Stack(
+            children: controller.activeHearts.map((heart) {
+              return TweenAnimationBuilder<double>(
+                tween: Tween(begin: 1.0, end: 0.0),
+                duration: heart.duration,
+                builder: (context, value, child) {
+                  return Positioned(
+                    left: heart.left,
+                    bottom: value * Get.height,
+                    child: Transform.rotate(
+                      angle: heart.rotation,
+                      child: Opacity(
+                        opacity: value,
+                        child: const Text(
+                          '❤️',
+                          style: TextStyle(fontSize: 40),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }).toList(),
+          );
+        }),
+      ),
+    );
+  }
+
+  // ============================================
+  // BRIGHTNESS INDICATOR
+  // ============================================
+
+  Widget _buildBrightnessIndicator(LiveConcertController controller) {
+    return Obx(() {
+      if (!controller.showBrightnessIndicator.value) {
+        return const SizedBox.shrink();
+      }
+
+      return Positioned(
+        left: 30,
+        top: 0,
+        bottom: 0,
+        child: Center(
+          child: Container(
+            width: 50,
+            height: 200,
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.6),
+              borderRadius: BorderRadius.circular(25),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Icône soleil
+                Icon(
+                  controller.brightness.value > 0.5
+                      ? Icons.wb_sunny
+                      : Icons.wb_sunny_outlined,
+                  color: Colors.white,
+                  size: 24,
+                ),
+
+                // Barre de luminosité verticale
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        // Barre de fond
+                        Container(
+                          width: 6,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.3),
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        ),
+                        // Barre de progression
+                        FractionallySizedBox(
+                          heightFactor: controller.brightness.value,
+                          child: Container(
+                            width: 6,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // Pourcentage
+                Text(
+                  '${(controller.brightness.value * 100).toInt()}%',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  // ============================================
+  // RIGHT SIDE BUTTONS
+  // ============================================
+
+  Widget _buildRightSideButtons(LiveConcertController controller) {
+    return Positioned(
+      right: 15,
+      bottom: 200,
+      child: Column(
+        children: [
+          // Like button
+          Obx(() => _buildActionButton(
+                icon: Icons.favorite,
+                label: controller.totalLikes.value > 0
+                    ? '${controller.totalLikes.value}'
+                    : '',
+                onTap: controller.sendLike,
+                color: Colors.red,
+              )),
+
+          const SizedBox(height: 20),
+
+          // Share button
+          _buildActionButton(
+            icon: Icons.share,
+            label: '',
+            onTap: controller.shareEvent,
+          ),
+
+          const SizedBox(height: 20),
+
+          // Fullscreen button
+          Obx(() => _buildActionButton(
+                icon: controller.isFullscreen.value
+                    ? Icons.fullscreen_exit
+                    : Icons.fullscreen,
+                label: '',
+                onTap: controller.toggleFullscreen,
+              )),
+
+          const SizedBox(height: 20),
+
+          // Casting button
+          _buildActionButton(
+            icon: Icons.cast,
+            label: '',
+            onTap: controller.startCasting,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    Color? color,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.5),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              color: color ?? Colors.white,
+              size: 28,
+            ),
+          ),
+          if (label.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(
+                    offset: Offset(0, 1),
+                    blurRadius: 3,
+                    color: Colors.black,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  // ============================================
+  // BOTTOM CONTROLS
+  // ============================================
 
   Widget _buildBottomControls(
     LiveConcertController controller,
