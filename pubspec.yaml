@@ -13,10 +13,11 @@ dependencies:
 
   cupertino_icons: ^1.0.8
 
-  ### 🔥 Firebase (Core uniquement)
+  ### 🔥 Firebase (Core + Storage for VyBzzZ)
   firebase_core: ^3.14.0
   firebase_auth: ^5.6.0
   cloud_firestore: ^5.6.9
+  firebase_storage: ^12.4.0
 
   ### 📦 State Management & Storage
   get: ^4.7.2
@@ -69,6 +70,12 @@ dependencies:
 
   ### 🔐 Login & Auth
   google_sign_in: ^6.3.0
+
+  ### 💳 Payments (VyBzzZ - Stripe Connect)
+  flutter_stripe: ^11.3.0
+
+  ### 📹 Live Streaming (VyBzzZ - 100MS)
+  hmssdk_flutter: ^1.10.7
 
   ### 🔔 Notifications
   flutter_local_notifications: ^19.3.0

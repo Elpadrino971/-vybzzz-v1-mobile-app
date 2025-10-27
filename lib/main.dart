@@ -15,10 +15,11 @@ import 'package:vybzzz/common/manager/session_manager.dart';
 import 'package:vybzzz/common/service/subscription/subscription_manager.dart';
 import 'package:vybzzz/common/widget/restart_widget.dart';
 import 'package:vybzzz/languages/dynamic_translations.dart';
-import 'package:vybzzz/screen/splash_screen/splash_screen.dart';
+import 'package:vybzzz/screen/splash_screen/animated_splash_screen.dart';
 import 'package:vybzzz/utilities/theme_res.dart';
 import 'package:vybzzz/utilities/theme_manager.dart';
-import 'package:vybzzz/routes/theme_routes.dart';
+import 'package:vybzzz/routes/vybzzz_routes.dart';
+import 'package:vybzzz/common/controller/auth_controller.dart';
 
 import 'common/service/network_helper/network_helper.dart';
 
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
           ScrollConfiguration(behavior: MyBehavior(), child: child!),
       onInit: () {
         Get.put(FirebaseFirestoreController());
+        Get.put(AuthController()); // Initialize AuthController
       },
       translations: Get.find<DynamicTranslations>(),
       locale: Locale(SessionManager.instance.getLang()),
@@ -92,8 +94,8 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeRes.darkTheme(context),
       theme: ThemeRes.lightTheme(context),
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
-      getPages: ThemeRoutes.getPages(),
+      home: const AnimatedSplashScreen(), // Splash Noël avec animations
+      getPages: VyBzzZRoutes.getPages(), // Routes VyBzzZ
     );
   }
 }
