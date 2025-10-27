@@ -19,7 +19,7 @@ class LiveConcertController extends GetxController {
   final VybzCoinService _coinService = VybzCoinService();
   final AuthController _authController = Get.find<AuthController>();
 
-  // Event
+  // Event (initialized from Get.arguments)
   late VyBzzZEvent event;
 
   // 100MS SDK
@@ -58,6 +58,19 @@ class LiveConcertController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    // Initialize event from Get.arguments
+    if (Get.arguments != null && Get.arguments is Map<String, dynamic>) {
+      final args = Get.arguments as Map<String, dynamic>;
+      if (args.containsKey('event') && args['event'] is VyBzzZEvent) {
+        event = args['event'] as VyBzzZEvent;
+      } else {
+        throw Exception('Event parameter is required for LiveConcertScreen');
+      }
+    } else {
+      throw Exception('Arguments are required for LiveConcertScreen');
+    }
+
     _initializeHMS();
     _listenToChat();
     _listenToViewerCount();
@@ -292,9 +305,14 @@ class LiveConcertController extends GetxController {
       // Créer le tip dans Firestore (convertir en euros pour l'artiste)
       final amountEur = VybzCoin.vybzToEur(vybzAmount);
       await _tipService.createTip(
-        eventId: event.id!,
         fromUserId: user.id ?? 0,
-        toUserId: event.artistId ?? 0,
+        fromUserName: user.fullname ?? 'Anonyme',
+        fromUserPhoto: user.profilePhoto,
+        toArtistId: event.artistId ?? 0,
+        toArtistName: event.artistName ?? 'Artiste',
+        toArtistPhoto: event.artistPhoto,
+        eventId: event.id!,
+        eventTitle: event.title ?? 'Concert Live',
         amount: amountEur,
         message: '$vybzAmount Vybz',
       );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:figma_squircle/figma_squircle.dart';
+import 'package:figma_squircle_updated/figma_squircle.dart';
 import 'package:vybzzz/screen/vybz_shop_screen/vybz_shop_controller.dart';
 import 'package:vybzzz/model/vybz_coin_model/vybz_coin_model.dart';
 import 'package:vybzzz/common/widget/vybzzz_theme.dart';
@@ -66,7 +66,7 @@ class VybzShopScreen extends StatelessWidget {
           ),
           shadows: [
             BoxShadow(
-              color: const Color(0xFFFFD700).withOpacity(0.3),
+              color: Color(0xFFFFD700).withOpacity(0.3),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
