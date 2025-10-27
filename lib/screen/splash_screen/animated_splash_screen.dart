@@ -4,6 +4,10 @@ import 'package:get/get.dart';
 import 'package:vybzzz/routes/vybzzz_routes.dart';
 import 'package:vybzzz/utilities/text_style_custom.dart';
 import 'package:figma_squircle_updated/figma_squircle.dart';
+import 'package:vybzzz/common/service/vybzzz/demo_data_service.dart';
+import 'package:vybzzz/common/controller/auth_controller.dart';
+import 'package:vybzzz/model/user_model/user_model.dart';
+import 'package:vybzzz/common/manager/logger.dart';
 
 /// Splash screen animé avec effet interactif de particules
 class AnimatedSplashScreen extends StatefulWidget {
@@ -66,12 +70,52 @@ class _AnimatedSplashScreenState extends State<AnimatedSplashScreen>
     // Start animations
     _logoController.forward();
 
-    // Navigate after delay
-    Future.delayed(const Duration(seconds: 3), () {
+    // Initialize demo data and navigate
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    try {
+      Loggers.info('🚀 Initialisation de VyBzzZ...');
+
+      // Vérifie si les données de démo existent
+      final demoService = DemoDataService();
+      final demoExists = await demoService.demoDataExists();
+
+      if (!demoExists) {
+        Loggers.info('📦 Création des données de démo...');
+        await demoService.createAllDemoData();
+      } else {
+        Loggers.info('✅ Données de démo déjà présentes');
+      }
+
+      // Crée un utilisateur de démo connecté automatiquement
+      final authController = Get.find<AuthController>();
+      final demoUser = UserModel(
+        id: 1,
+        email: 'fan@vybzzz.com',
+        fullname: 'Alexandre Martin',
+        username: 'alex_fan',
+        profilePhoto: 'https://i.pravatar.cc/150?img=1',
+        // Autres champs seront gérés par l'extension
+      );
+
+      authController.currentUser.value = demoUser;
+      Loggers.success('👤 Utilisateur de démo connecté: ${demoUser.fullname}');
+
+      // Navigate after delay
+      await Future.delayed(const Duration(seconds: 3));
+      if (mounted) {
+        VyBzzZRoutes.toMainNavigation();
+      }
+    } catch (e) {
+      Loggers.error('❌ Erreur initialisation: $e');
+      // Navigate quand même en cas d'erreur
+      await Future.delayed(const Duration(seconds: 3));
       if (mounted) {
         VyBzzZRoutes.toWelcome();
       }
-    });
+    }
   }
 
   @override
