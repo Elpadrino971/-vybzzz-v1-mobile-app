@@ -253,7 +253,7 @@ class LiveConcertScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '${controller.totalTips.value.toStringAsFixed(0)}€',
+                        '${controller.totalTips.value} Vybz',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 14,

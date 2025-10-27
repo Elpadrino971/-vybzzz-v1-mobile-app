@@ -13,6 +13,7 @@ import 'package:vybzzz/screen/qr_scanner_screen/qr_scanner_screen.dart';
 import 'package:vybzzz/screen/live_concert_screen/live_concert_screen.dart';
 import 'package:vybzzz/screen/artist_live_screen/artist_live_screen.dart';
 import 'package:vybzzz/screen/stripe_onboarding_screen/stripe_onboarding_screen.dart';
+import 'package:vybzzz/screen/vybz_shop_screen/vybz_shop_screen.dart';
 
 /// Routes VyBzzZ
 class VyBzzZRoutes {
@@ -44,6 +45,9 @@ class VyBzzZRoutes {
   // Live Streaming
   static const String liveConcert = '/live-concert';
   static const String artistLive = '/artist-live';
+
+  // VyBzzZ Shop
+  static const String vybzShop = '/vybz-shop';
 
   /// Get all VyBzzZ pages
   static List<GetPage> getPages() {
@@ -138,6 +142,13 @@ class VyBzzZRoutes {
         page: () => const ArtistLiveScreen(),
         transition: Transition.fadeIn,
       ),
+
+      // VyBzzZ Shop
+      GetPage(
+        name: vybzShop,
+        page: () => const VybzShopScreen(),
+        transition: Transition.rightToLeft,
+      ),
     ];
   }
 
@@ -160,4 +171,5 @@ class VyBzzZRoutes {
       Get.toNamed(liveConcert, arguments: arguments);
   static void toArtistLive({Map<String, dynamic>? arguments}) =>
       Get.toNamed(artistLive, arguments: arguments);
+  static void toVybzShop() => Get.toNamed(vybzShop);
 }
